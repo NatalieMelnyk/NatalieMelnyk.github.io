@@ -19,52 +19,5 @@
                 "Priority customer support"
             ]
         }
-    ],
-    "accounts":[
-        {
-            "id": 1,
-            "username": "sueCrow",
-            "password": "302491",
-            "email": "sueCrow@email.com",
-            "plan": "Free",
-            "discount": false,
-            "list_count": 6
-        },
-        {
-            "id": 2,
-            "username": "alanWake",
-            "password": "champOfLight",
-            "email": "aWake@email.com",
-            "plan": "Premium",
-            "discount": true,
-            "list_count": 10378
-        },
-        {
-            "id": 3,
-            "username": "AshWilliam",
-            "password": "groovy",
-            "email": "chosenOne@email.com",
-            "plan": "Free",
-            "discount": false,
-            "list_count": 1
-        },
-        {
-            "id": 4,
-            "username": "roseMarigold",
-            "password": "alan",
-            "email": "alanFan@email.com",
-            "plan": "Premium",
-            "discount": false,
-            "list_count": 665
-        },
-        {
-            "id": 5,
-            "username": "prettyPik",
-            "password": "theOneAndOnly",
-            "email": "beautiful@email.com",
-            "plan": "Premium",
-            "discount": true,
-            "list_count": 65
-        }
     ]
 }
