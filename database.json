@@ -14,7 +14,7 @@
         {
             "id": 2,
             "name": "Pro Buddy",
-            "price": "$3.99",
+            "price": "$3.99 /Month",
             "description": "For freelancers and power users who need advanced organization and automation.",
             "feats": [
                 "Everything in Basic Buddy",
@@ -27,7 +27,7 @@
         {
             "id": 3,
             "name": "Team Buddy",
-            "price": "$14.99",
+            "price": "$14.99 /Month",
             "description": "Collaborative environment for small teams to coordinate work and resources.",
             "feats": [
                 "Everything in Pro Buddy",
@@ -40,7 +40,7 @@
         {
             "id": 4,
             "name": "Business Buddy",
-            "price": "$29.99",
+            "price": "$29.99 /Month",
             "description": "Robust features for scaling companies requiring tracking and high-level security.",
             "feats": [
                 "Everything in Team Buddy",
@@ -54,7 +54,7 @@
                 {
             "id": 5,
             "name": "Enterprise Buddy",
-            "price": "$59.99",
+            "price": "$59.99 /Month",
             "description": "Robust features for scaling companies requiring tracking and high-level security.",
             "feats": [
                 "Everything in Business Buddy",
@@ -82,4 +82,5 @@
             "description": "Color code and create custom categories for your tasks. You can slice through your workload using any criteria you choose, such as \"Work,\" \"Personal,\" or \"High Energy.\" By minimizing the friction of sorting, the system ensures that organizing your life feels less like a chore and more like a strategy session."
         }
     ]
+
 }
