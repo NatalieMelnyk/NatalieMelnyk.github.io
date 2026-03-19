@@ -1,0 +1,239 @@
+:root{
+    --main-padding: 10px;
+    --main-radius: 25px; /* Soft Border Corners*/
+    --myWhite: #fefcfdf0;
+    --paleSky: #bfcde0;
+    --dustyGrape: #5d5d81;
+    --spaceIndigo: #3b3355;
+    --myBlack: #000505;
+}
+body{
+    margin: 0; /* Get rid of whitespace*/
+    font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+}
+#container{
+    display: grid; /* CSS Grid */
+
+    grid-template-rows: auto auto auto auto auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    /* Set grid structure*/
+    grid-template-areas:
+    "nav nav nav"
+    "main main main"
+    "featTitle featTitle featTitle"
+    "featBlock featBlock featBlock"
+    "planTitle planTitle planTitle"
+    "plans plans plans"
+    "form form form"
+    "footer footer footer"
+    ;
+}
+
+nav{
+    grid-area: nav;
+
+    /* Styling */
+    background-color: whitesmoke;
+    padding: var(--main-padding) 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+nav img{
+    width: 30px;
+}
+nav a{
+    /* Nav anchor tags */
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+#navLinks {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+#menuIcon {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+button{
+    color: white;
+    background-color: var(--spaceIndigo);
+    border: none;
+    border-radius: 20px;
+    padding: 12px 28px;
+    cursor: pointer;
+}
+main{
+    grid-area: main;
+
+    /* Styling */
+    background-color: var(--paleSky);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+}
+main img{
+    width: 28em;
+    margin: 2em;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+#featureTitle{
+    grid-area: featTitle;
+
+    /* Styling */
+    background-color: var(--dustyGrape);
+    color: var(--myWhite);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2em;
+    font-size: 16px;
+}
+#featureTitle h1{
+    display: flex;
+    justify-content: center;
+}
+#featContainer{
+    grid-area: featBlock;
+    background-color: var(--dustyGrape);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    padding: 20px var(--main-padding) 80px;
+}
+.features{
+    background-color: var(--myWhite);
+    padding: 40px;
+    border: 1px solid var(--myWhite);
+    border-radius: var(--main-radius);
+}
+
+#planTitle{
+    grid-area: planTitle;
+    /* Styling */
+    background-color: whitesmoke;
+    padding: 40px;
+}
+#plansContainer{
+    grid-area: plans;
+
+    background-color: whitesmoke;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+.plan{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: var(--main-radius);
+    padding: var(--main-padding);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.plan ul{
+    text-align: left;
+}
+.plan li{
+    padding: 5px;
+}
+#form{
+    grid-area: form;
+
+    /* Styling */
+    background-color: var(--spaceIndigo);
+    color: var(--myWhite);
+    text-align: center;
+    padding: 75px;
+}
+#form input{
+    padding: var(--main-padding);
+    border-radius: var(--main-radius);
+    border: none;
+    width: 250px;
+    margin-right: var(--main-padding);
+}
+#form button{
+    border: 1px solid var(--myWhite)
+}
+footer{
+    grid-area: footer;
+
+    /* Styling */
+    background-color: var(--myBlack);
+    color: var(--myWhite);
+    text-align: center;
+    padding: var(--main-padding);
+}
+@media (max-width: 768px) {
+
+    #menuIcon { display: block; } /* Show hamburger */
+    #navLinks {
+        display: none; /* Hide links*/
+        flex-direction: column;
+        position: absolute;
+        top: 55px; /* Under the nav bar */
+        left: 0;
+        right: 0;
+        background-color: whitesmoke;
+        padding: 20px;
+        border-bottom: 2px solid var(--spaceIndigo);
+        gap: 15px;
+    }
+
+    /* When JS adds the 'active' class, the menu appears */
+    #navLinks.active { display: flex; }
+
+    /* Stack image and text vertically */
+    main { flex-direction: column; text-align: center; }
+    main img { width: 80%; margin-top: 20px; }
+
+    #container {
+        grid-template-columns: 1fr; 
+        /* Redefine grid areas for a vertical stack */
+        grid-template-areas:
+            "nav"
+            "main"
+            "featTitle"
+            "featBlock"
+            "planTitle"
+            "plans"
+            "form"
+            "footer";
+    }
+
+    #featContainer {
+        grid-template-columns: 1fr; /* Stack features vertically */
+        padding: 20px; /* Reduce padding for narrow screens */
+        gap: 20px;
+    }
+    #plansContainer {
+        grid-template-columns: 1fr; /* Stack plans vertically */
+        padding: 20px;
+        gap: 20px;
+    }
+    #form input {
+        width: 90%; /* Make input take up most of the screen width */
+        margin-right: 0;
+        margin-bottom: 15px; /* Add space between input and button */
+    }
+}

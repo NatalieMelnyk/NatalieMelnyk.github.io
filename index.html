@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Task Buddy</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            :root{
+                --main-padding: 10px;
+                --main-radius: 25px; /* Soft Border Corners*/
+                --myWhite: #fefcfdf0;
+                --paleSky: #bfcde0;
+                --dustyGrape: #5d5d81;
+                --spaceIndigo: #3b3355;
+                --myBlack: #000505;
+            }
+            body{
+                margin: 0; /* Get rid of whitespace*/
+                font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+            }
+            #container{
+                display: grid; /* CSS Grid */
+
+                grid-template-rows: auto auto auto auto auto auto auto auto auto;
+                grid-template-columns: 1fr 1fr 1fr;
+
+                /* Set grid structure*/
+                grid-template-areas:
+                "nav nav nav"
+                "main main main"
+                "featTitle featTitle featTitle"
+                "featBlock featBlock featBlock"
+                "planTitle planTitle planTitle"
+                "plans plans plans"
+                "form form form"
+                "footer footer footer"
+                ;
+            }
+            nav{
+                grid-area: nav;
+
+                /* Styling */
+                background-color: whitesmoke;
+                padding: var(--main-padding) 40px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid black;
+            }
+            .logo{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            nav img{
+                width: 30px;
+            }
+            nav a{
+                /* Nav anchor tags */
+                color: black;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            #navLinks {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            #menuIcon {
+                display: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            button{
+                color: white;
+                background-color: var(--spaceIndigo);
+                border: none;
+                border-radius: 20px;
+                padding: 12px 28px;
+                cursor: pointer;
+            }
+            main{
+                grid-area: main;
+
+                /* Styling */
+                background-color: var(--paleSky);
+                min-height: 80vh;
+                display: flex;
+                align-items: center;
+                padding: 40px;
+            }
+            main img{
+                width: 28em;
+                margin: 2em;
+                border: 1px solid white;
+                border-radius: 10px;
+            }
+
+            #featureTitle{
+                grid-area: featTitle;
+
+                /* Styling */
+                background-color: var(--dustyGrape);
+                color: var(--myWhite);
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                padding: 2em;
+                font-size: 16px;
+            }
+            #featureTitle h1{
+                display: flex;
+                justify-content: center;
+            }
+            #featContainer{
+                grid-area: featBlock;
+                background-color: var(--dustyGrape);
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 30px;
+                padding: 20px var(--main-padding) 80px;
+            }
+            .features{
+                background-color: var(--myWhite);
+                padding: 40px;
+                border: 1px solid var(--myWhite);
+                border-radius: var(--main-radius);
+            }
+
+            #planTitle{
+                grid-area: planTitle;
+                /* Styling */
+                background-color: whitesmoke;
+                padding: 40px;
+            }
+            #plansContainer{
+                grid-area: plans;
+
+                background-color: whitesmoke;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            .plan{
+                background-color: white;
+                border: 1px solid black;
+                border-radius: var(--main-radius);
+                padding: var(--main-padding);
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            .plan ul{
+                text-align: left;
+            }
+            .plan li{
+                padding: 5px;
+            }
+            #form{
+                grid-area: form;
+
+                /* Styling */
+                background-color: var(--spaceIndigo);
+                color: var(--myWhite);
+                text-align: center;
+                padding: 75px;
+            }
+            #form input{
+                padding: var(--main-padding);
+                border-radius: var(--main-radius);
+                border: none;
+                width: 250px;
+                margin-right: var(--main-padding);
+            }
+            #form button{
+                border: 1px solid var(--myWhite)
+            }
+            footer{
+                grid-area: footer;
+
+                /* Styling */
+                background-color: var(--myBlack);
+                color: var(--myWhite);
+                text-align: center;
+                padding: var(--main-padding);
+            }
+            @media (max-width: 768px) {
+
+                #menuIcon { display: block; } /* Show hamburger */
+                #navLinks {
+                    display: none; /* Hide links*/
+                    flex-direction: column;
+                    position: absolute;
+                    top: 55px; /* Under the nav bar */
+                    left: 0;
+                    right: 0;
+                    background-color: whitesmoke;
+                    padding: 20px;
+                    border-bottom: 2px solid var(--spaceIndigo);
+                    gap: 15px;
+                }
+
+                /* When JS adds the 'active' class, the menu appears */
+                #navLinks.active { display: flex; }
+
+                /* Stack image and text vertically */
+                main { flex-direction: column; text-align: center; }
+                main img { width: 80%; margin-top: 20px; }
+
+                #container {
+                    grid-template-columns: 1fr; 
+                    /* Redefine grid areas for a vertical stack */
+                    grid-template-areas:
+                        "nav"
+                        "main"
+                        "featTitle"
+                        "featBlock"
+                        "planTitle"
+                        "plans"
+                        "form"
+                        "footer";
+                }
+
+                #featContainer {
+                    grid-template-columns: 1fr; /* Stack features vertically */
+                    padding: 20px; /* Reduce padding for narrow screens */
+                    gap: 20px;
+                }
+                #plansContainer {
+                    grid-template-columns: 1fr; /* Stack plans vertically */
+                    padding: 20px;
+                    gap: 20px;
+                }
+                #form input {
+                    width: 90%; /* Make input take up most of the screen width */
+                    margin-right: 0;
+                    margin-bottom: 15px; /* Add space between input and button */
+                }
+            }
+        </style>
+    </head>
+    <body> 
+            <div id="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images\task_buddy Icon.jpg" alt="Task Buddy Icon">
+                    </a>
+                    <a href="index.html">Task Buddy</a>
+                </div>
+                <i class="fa-solid fa-bars menu-icon" id="menuIcon"></i>
+                <div id="navLinks">
+                    <a href="#mainContent">Home</a>
+                    <a href="#featureTitle">Features</a>
+                    <a href="#planTitle">Plans</a>
+                    <a href="#pgFooter">Socials</a>
+                    <a href="#form">
+                        <button>Sign Up</button>
+                    </a>
+                </div>
+            </nav>
+            <main id="mainContent"> 
+                <div>
+                    <h1>Task Buddy - A Task Manager</h1>
+                    <p>Sort through the chaos and take back control of your workflow with our task manger web application: Task Buddy</p>
+                    <a href="#form">
+                        <button>Get Started</button>
+                    </a>
+                </div>
+                <img src="images\Pretty Tasks.png" alt="A pretty creature checking off tasks in a list">
+            </main>
+            <div id="featureTitle"> 
+                    <h1>Features</h1>
+                <p>Access your Tasks anywhere you go with our web task manager! Create your own to-do lists with the power of our intelligent reminders and seamless organization.</p>
+            </div>
+            <div id="featContainer">
+                <div id="feature1" class="features"> 
+                    Feature 1
+                </div>
+                <div id="feature2" class="features"> 
+                    Feature 2
+                </div>
+                <div id="feature3" class="features">
+                    Feature 3
+                </div>
+            </div>
+            <div id="planTitle"> 
+                <h2>Pick The Right Plan For You!</h2>
+                <p>Choose between our FREE Basic Buddy plan, or choose from out PAID Buddy plans. Select what plan will meet your task management needs!</p>
+                <a href="#form">
+                    <button>Contact Us</button>
+                </a>
+            </div>
+            <div id="plansContainer"> 
+                <div id="plan1"> Free Plan </div>
+                <div id="plan2"> Plan 2 </div>
+            </div>
+            <div id="form">
+                <h1>Tackle your tasks with a Buddy today!</h1>
+                <input type="email" placeholder="example@email.com">
+                <button>Get Started</button>
+            </div>
+            <footer id="pgFooter"> 
+                <div id="footerImgs">
+
+                </div>
+                <p>&copy; 2026 Fake Copywritght 2026 TaskBuddy. All Rights NOT Reserved</p>
+            </footer>
+        </div>      
+        <script>
+            const menuIcon = document.getElementById('menuIcon');
+            const navLinks = document.getElementById('navLinks');
+
+            menuIcon.addEventListener('click', () => {
+            // Adds or removes the 'active' class to show/hide links
+            navLinks.classList.toggle('active');
+            
+            // Checks the current icon and swaps it to its opposite
+            if (menuIcon.classList.contains('fa-bars')) 
+            {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            } else 
+            {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        });
+
+        // Loop through all nav links to close the menu once a user clicks a section
+        document.querySelectorAll('#navLinks a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            });
+        });
+            async function getData(){
+                try{
+                    // Fetch data from api endpoint URL
+                    const response = await fetch("https:///nataliemelnyk.github.io/database.json");
+
+                    // Store json response in data to parse
+                    const data = await response.json();
+
+                    // -- Populate Features --
+                    // Use DOM to obtain features container
+                    const featureContainer = document.getElementsByClassName("features");
+
+                    // Loop through features
+                    data.features.forEach((feature, index) =>{
+                        if (featureContainer[index]){
+                            const div = featureContainer[index];
+                            div.textContent = ""; // Clear content
+
+                            const name = document.createElement("h3");
+                            name.textContent = feature.name // Add Name of feat
+
+                            const desc = document.createElement("p");
+                            desc.textContent = feature.description; // Add description
+
+                            // Append name and description to created div
+                            div.append(name, desc)
+                        }
+                    });
+
+                    // -- Populate Plans --
+                    // Obtain plans container through DOM
+                    const plansContainer = document.getElementById("plansContainer");
+                    plansContainer.textContent = ""; // Clear placeholder text
+
+
+                    // Loop through each plan in database
+                    data.plans.forEach(plan => {
+                        const planBlock = createPlan(plan);
+                        plansContainer.appendChild(planBlock);
+                    })
+                }
+                catch(error){
+                    console.log("Error --> ", error);
+                }
+            }
+
+            // Function to create a plan using DOM element creation
+            function createPlan(plan){
+                const planBlock = document.createElement("div");
+                planBlock.className = "plan";
+
+                // Create plan name
+                const name = document.createElement("h3");
+                name.textContent = plan.name;
+
+                // Create plan price
+                const price = document.createElement("p");
+                price.textContent = plan.price;
+
+                // Create plan description
+                const desc = document.createElement("p");
+                desc.textContent = plan.description;
+
+                // Create list of features
+                const list = document.createElement("ul");
+                // Loop through each plan feat in database
+                plan.feats.forEach(featText =>{
+                    // Create feature bullet
+                    const li = document.createElement("li");
+                    li.textContent = featText;
+                    list.appendChild(li);
+                });
+
+                // Create confirmation button
+                const btn = document.createElement("button");
+                btn.textContent = "Get Plan";
+
+                // Appends all pieces
+                planBlock.append(name, price, desc, list, btn)
+                return (planBlock);
+            }
+            // Call function to obtain feature/plan data
+            getData();
+        </script>
+    </body>
+</html>
