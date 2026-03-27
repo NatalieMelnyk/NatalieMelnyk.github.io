@@ -1,7 +1,10 @@
-// Routing stuff goes here
-// Module.exports for loading pages
-// processes.cwd
-
+// File: index.js
+// Part of Project: Assignment 2
+// Author: Natalie Melnyk
+// Purpose:
+//  Routing stuff goes here
+//  Module.exports for loading pages
+//  processes.cwd
 // Dependencies
 const fs = require('fs');
 const path = require('path');
