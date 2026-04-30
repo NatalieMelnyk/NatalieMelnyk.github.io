@@ -36,7 +36,7 @@ module.exports = (req, res) =>{
     catch (error)
     {
         // Display Server Error
-        console.error(error);
+        console.error("MongoDB Error:", error.message);
         res.status(500).json({error: 'Failed to get data'});
     }
     finally
