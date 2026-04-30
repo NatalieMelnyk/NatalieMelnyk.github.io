@@ -1,0 +1,88 @@
+[{
+      "id": 1,
+      "type": "plan",
+      "name": "Basic Buddy",
+      "price": "$0 (Free Forever)",
+      "description": "Essential tools for individuals and students looking to organize their personal projects and daily to-do lists without any financial commitment.",
+      "feats": [
+        "100 List Limit",
+        "Basic List Views",
+        "Basic Reminders"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "plan",
+      "name": "Pro Buddy",
+      "price": "$3.99 /Month",
+      "description": "For freelancers and power users who need advanced organization and automation.",
+      "feats": [
+        "Everything in Basic Buddy",
+        "5,000 List Limit",
+        "Calendar Integration",
+        "Expanded Customization",
+        "Priority customer support"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "plan",
+      "name": "Team Buddy",
+      "price": "$14.99 /Month",
+      "description": "Collaborative environment for small teams to coordinate work and resources.",
+      "feats": [
+        "Everything in Pro Buddy",
+        "10,000 List Limit",
+        "List Sharing",
+        "Member Roles",
+        "5 FREE guest collaborators"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "plan",
+      "name": "Business Buddy",
+      "price": "$29.99 /Month",
+      "description": "Robust features for scaling companies requiring tracking and high-level security.",
+      "feats": [
+        "Everything in Team Buddy",
+        "1,000,000 List Limit",
+        "Timesheet Syncs",
+        "Custom metadata fields",
+        "Authentication",
+        "Higher Priority Support"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "plan",
+      "name": "Enterprise Buddy",
+      "price": "$59.99 /Month",
+      "description": "Robust features for scaling companies requiring tracking and high-level security.",
+      "feats": [
+        "Everything in Business Buddy",
+        "Unlimited Lists",
+        "Audit Logs",
+        "Success Manager",
+        "Highest Priority Support"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "feature",
+      "name": "Daily To-Do",
+      "description": "Get an overview of your day, everyday, with the Daily to-do list. Designed to strip away the noise and allow you to focus on what matters for the day. Each morning, the list is populated with your scheduled deadlines and overdue items. Allowing you to transform that intimidating backlog into a an actionable checklist."
+    },
+    {
+      "id": 2,
+      "type": "feature",
+      "name": "Set Reminders",
+      "description": "Your own digital safety net, ensuring high-priority tasks never slip through the cracks. Beyond simple time-based alerts, users can configure multi-channel notifications—including browser push alerts, desktop pings, or even mobile nudges—delivered exactly when and where they're needed most. This keeps you in your flow state until the moment you need to spring into action."
+    },
+    {
+      "id": 3,
+      "type": "feature",
+      "name": "Easy Organization",
+      "description": "Color code and create custom categories for your tasks. You can slice through your workload using any criteria you choose, such as \"Work,\" \"Personal,\" or \"High Energy.\" By minimizing the friction of sorting, the system ensures that organizing your life feels less like a chore and more like a strategy session."
+    }
+]

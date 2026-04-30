@@ -8,35 +8,40 @@
 // Dependencies
 const fs = require('fs');
 const path = require('path');
+const MongoClient = require('mongodb');
 
 // Web link for Vercel: https://task-buddy-indol.vercel.app/
+
+// Get connection string from env
+const uri = process.env.MONGO_URI;
+
+// Establish client on URI
+const client = new MongoClient(uri);
 
 // Create server
 module.exports = (req, res) =>{
 
-    // Main page
-    if (req.url === '/' || req.url === ''){
-        fs.readFile(
-            path.join(process.cwd(), 'index.html'),
-            (err, content)=>{
-                if(err) throw err;
+    try{
+        await client.connect(); // Conenct to client
+        const buddyDatabase = client.db('TaskBuddy'); // Grab database from conneciton
+        const collection = buddyDatabase.collection('buddyData'); // Grab collection from Database
 
-                res.writeHead(200,{'Content-Type': 'text/html'});
-                res.end(content);
-            }
-        )
+        // Filter database items by type
+        const plans = await collection.find({type:"plan"}).toArray();
+        const features = await collection.find({type:"feature"}).toArray();
+
+        // Display successful response with JSON
+        res.status(200).json({plans, features});
     }
-
-    //
-    else if (req.url === '/api'){
-        fs.readFile(
-            path.join(process.cwd(), 'database.json'), 'utf-8',
-            (err, content)=>{
-                if(err) throw err;
-
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(content);
-            }
-        )
+    catch (error)
+    {
+        // Display Server Error
+        console.error(error);
+        res.status(500).json({error: 'Failed to get data'});
+    }
+    finally
+    {
+        // Always close connection
+        await client.close();
     }
 }
