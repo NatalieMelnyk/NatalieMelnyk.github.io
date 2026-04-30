@@ -193,6 +193,11 @@ const server = http.createServer(async (req, res) => {
         serveFile(res, path.join(__dirname, "public", "style.css"), "text/css");
         return;
     }
+    // ─── PUBLIC: Marketing site ───────────────────
+    if (pathname === "/" && req.method === "GET") {
+        serveFile(res, path.join(__dirname, "public", "index.html"), "text/html");
+        return;
+    }
 
     // ─── PUBLIC: Login page ───────────────────
 
@@ -252,20 +257,6 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ─── ROOT: redirect ───────────────────────
-
-    if (pathname === "/") {
-        if (session) {
-            console.log("[ROUTE] / -> redirecting to /admin (logged in)");
-            res.writeHead(302, { Location: "/admin" });
-        } else {
-            console.log("[ROUTE] / -> redirecting to /login (not logged in)");
-            res.writeHead(302, { Location: "/login" });
-        }
-        res.end();
-        return;
-    }
-
     // ─── AUTH WALL: everything below requires login ───
 
     if (!session) {
@@ -283,8 +274,8 @@ const server = http.createServer(async (req, res) => {
     // ─── PROTECTED: Book collection page ──────
 
     if (pathname === "/admin" && req.method === "GET") {
-        console.log("[ROUTE] Serving books page (index.html)");
-        serveFile(res, path.join(__dirname, "public", "index.html"), "text/html");
+        console.log("[ROUTE] Serving products page (admin.html)");
+        serveFile(res, path.join(__dirname, "public", "admin.html"), "text/html");
         return;
     }
 
