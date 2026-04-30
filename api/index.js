@@ -19,7 +19,7 @@ const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 
 // Create server
-module.exports = (req, res) =>{
+module.exports = async (req, res) =>{
 
     try{
         await client.connect(); // Conenct to client
