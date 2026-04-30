@@ -50,8 +50,8 @@
                     return;
                 }
                 // Cookie is already set by the server in the response
-                // Just navigate to /books
-                window.location.href = '/books';
+                // Just navigate to /admin
+                window.location.href = '/admin';
             })
             .catch((err) => {
                 document.getElementById('error').textContent = 'Login failed: ' + err.message;
