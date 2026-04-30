@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Book Collection</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn">Log In</button>
+    <p id="error"></p>
+
+    <script>
+        // Clean up any leftover junk from old sessions
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+
+        document.getElementById('loginBtn').addEventListener('click', doLogin);
+
+        document.getElementById('password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') doLogin();
+        });
+        document.getElementById('username').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('password').focus();
+        });
+
+        function doLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                document.getElementById('error').textContent = 'Enter both fields.';
+                return;
+            }
+
+            document.getElementById('error').textContent = 'Logging in...';
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ username, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('error').textContent = data.error;
+                    return;
+                }
+                // Cookie is already set by the server in the response
+                // Just navigate to /books
+                window.location.href = '/books';
+            })
+            .catch((err) => {
+                document.getElementById('error').textContent = 'Login failed: ' + err.message;
+            });
+        }
+    </script>
+</body>
+</html>
