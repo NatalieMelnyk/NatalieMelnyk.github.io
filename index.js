@@ -10,7 +10,7 @@ const fs = require('fs');
 const http = require('http');
 const path = require('path');
 const crypto = require('crypto');
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 require("dotenv").config();
 
 // Web link for Vercel: https://task-buddy-indol.vercel.app/
@@ -226,9 +226,7 @@ const server = http.createServer(async (req, res) => {
         const { username, password } = parsed;
         console.log(`[LOGIN] Trying username="${username}"`);
 
-        const user = USERS.find(
-            (u) => u.username === username && u.password === password
-        );
+        const user = await usersCollection.findOne({username, password});
 
         if (!user) {
             console.log(`[LOGIN] FAILED for username="${username}"`);
@@ -369,11 +367,10 @@ const server = http.createServer(async (req, res) => {
         }
         // Don't Allow _id to be overwritten
         delete updates._id;
-        delete updates.id;
 
         console.log("[API] Updates:", updates);
         buddyDataCollection
-            .updateOne({ id: id }, { $set: updates })
+            .updateOne({_id: objectId}, { $set: updates })
             .then((result) => {
                 console.log(`[API] Updated: matchedCount=${result.matchedCount}, modifiedCount=${result.modifiedCount}`);
                 sendJSON(res, 200, result);
@@ -399,7 +396,7 @@ const server = http.createServer(async (req, res) => {
             return;
         }
         buddyDataCollection
-            .deleteOne({ id: id })
+            .deleteOne({_id: objectId })
             .then((result) => {
                 console.log(`[API] Deleted: deletedCount=${result.deletedCount}`);
                 sendJSON(res, 200, result);
