@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Task Buddy</title>
+    <style>
+        :root {
+            --main-padding: 10px;
+            --main-radius: 25px;
+            --myWhite: #fefcfdf0;
+            --paleSky: #bfcde0;
+            --dustyGrape: #5d5d81;
+            --spaceIndigo: #3b3355;
+            --myBlack: #000505;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            margin: 0;
+            font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        /* -- NAV -- */
+        nav {
+            background-color: whitesmoke;
+            padding: var(--main-padding) 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid black;
+            z-index: 100;
+        }
+        nav a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        nav button {
+            color: white;
+            background-color: var(--spaceIndigo);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 28px;
+            cursor: pointer;
+        }
+
+        /* -- PAGE WRAPPER (makes content below fixed nav) -- */
+        .page-wrapper {
+            padding-top: 60px;
+        }
+
+        /* -- FORMS SECTION -- */
+        #forms-section {
+            background-color: var(--dustyGrape);
+            color: var(--myWhite);
+            padding: 2em;
+        }
+
+        #forms-section h1 {
+            text-align: center;
+            margin-bottom: 0.5em;
+            font-size: 1.5rem;
+        }
+
+        #forms-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            padding: 20px var(--main-padding) 40px;
+        }
+
+        .form-card {
+            background-color: var(--myWhite);
+            color: var(--myBlack);
+            padding: 30px;
+            border-radius: var(--main-radius);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-card h2 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: var(--spaceIndigo);
+        }
+
+        .form-card input,
+        .form-card select,
+        .form-card textarea {
+            padding: var(--main-padding);
+            border-radius: var(--main-radius);
+            border: 1px solid var(--dustyGrape);
+            width: 100%;
+            font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .form-card textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .form-card button {
+            color: white;
+            background-color: var(--spaceIndigo);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 28px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-card button:hover {
+            opacity: 0.85;
+        }
+
+        .msg {
+            font-size: 0.8rem;
+            min-height: 18px;
+            color: var(--spaceIndigo);
+        }
+
+        /* -- PRODUCTS SECTION -- */
+        #products-section {
+            background-color: whitesmoke;
+            padding: 40px;
+        }
+
+        #products-section h1 {
+            margin-bottom: 20px;
+            color: var(--spaceIndigo);
+        }
+
+        #products-section button {
+            color: white;
+            background-color: var(--spaceIndigo);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 28px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 1px solid black;
+            border-radius: var(--main-radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-card h3 {
+            color: var(--spaceIndigo);
+            font-size: 1rem;
+        }
+
+        .product-card .card-type {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--dustyGrape);
+        }
+
+        .product-card .card-price {
+            font-weight: bold;
+            color: var(--myBlack);
+        }
+
+        .product-card .card-desc {
+            font-size: 0.82rem;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .product-card ul {
+            text-align: left;
+            padding-left: 18px;
+        }
+
+        .product-card li {
+            font-size: 0.8rem;
+            padding: 3px 0;
+            color: #333;
+        }
+
+        .card-id {
+            font-size: 0.72rem;
+            color: var(--dustyGrape);
+            background-color: whitesmoke;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 6px 10px;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .card-added {
+            font-size: 0.72rem;
+            color: #888;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--dustyGrape);
+        }
+
+        /* -- FOOTER -- */
+        footer {
+            background-color: var(--myBlack);
+            color: var(--myWhite);
+            text-align: center;
+            padding: var(--main-padding);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            #forms-container {
+                grid-template-columns: 1fr;
+            }
+            #products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <strong>Task Buddy — Admin Panel</strong>
+    <a href="/logout"><button>Logout</button></a>
+</nav>
+
+<div class="page-wrapper">
+
+    <!-- FORMS -->
+    <section id="forms-section">
+        <h1>Manage Products</h1>
+        <div id="forms-container">
+
+            <!-- ADD -->
+            <div class="form-card">
+                <h2>Add Product</h2>
+                <input type="text" id="addName" placeholder="Name">
+                <select id="addType">
+                    <option value="">-- Type --</option>
+                    <option value="plan">plan</option>
+                    <option value="feature">feature</option>
+                </select>
+                <input type="text" id="addPrice" placeholder="Price (e.g. $9.99 /Month)">
+                <textarea id="addDescription" placeholder="Description"></textarea>
+                <input type="text" id="addFeats" placeholder="Features (comma separated)">
+                <button id="addBtn">Add Product</button>
+                <p class="msg" id="addMessage"></p>
+            </div>
+
+            <!-- UPDATE -->
+            <div class="form-card">
+                <h2>Update Product</h2>
+                <input type="text" id="updateId" placeholder="Product _id">
+                <input type="text" id="updateName" placeholder="New name (optional)">
+                <input type="text" id="updatePrice" placeholder="New price (optional)">
+                <textarea id="updateDescription" placeholder="New description (optional)"></textarea>
+                <button id="updateBtn">Update Product</button>
+                <p class="msg" id="updateMessage"></p>
+            </div>
+
+            <!-- DELETE -->
+            <div class="form-card">
+                <h2>Delete Product</h2>
+                <input type="text" id="deleteId" placeholder="Product _id">
+                <button id="deleteBtn">Delete Product</button>
+                <p class="msg" id="deleteMessage"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products-section">
+        <h1>All Products</h1>
+        <button id="fetchBtn">Refresh Products</button>
+        <div id="products-grid">
+            <div class="empty-state">Click "Refresh Products" to load.</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Task Buddy Admin Panel</p>
+    </footer>
+
+</div>
+
+<script>
+    function setMsg(id, text) {
+        document.getElementById(id).textContent = text;
+    }
+
+    function handle401(res) {
+        if (res.status === 401) { window.location.href = '/login'; return true; }
+        return false;
+    }
+
+    // ------ Fetch & Render ------
+    function fetchProducts() {
+        fetch('/api')
+            .then(res => { if (handle401(res)) return null; return res.json(); })
+            .then(products => {
+                if (!products) return;
+                const grid = document.getElementById('products-grid');
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="empty-state">No products found.</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(p => `
+                    <div class="product-card">
+                        <div class="card-type">${p.type || ''}</div>
+                        <h3>${p.name || '—'}</h3>
+                        ${p.price ? `<div class="card-price">${p.price}</div>` : ''}
+                        ${p.description ? `<div class="card-desc">${p.description}</div>` : ''}
+                        ${p.feats && p.feats.length ? `
+                            <ul>${p.feats.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+                        <div class="card-id">
+                            <strong>_id:</strong> ${p._id}
+                            ${p.id !== undefined ? `<br><strong>id:</strong> ${p.id}` : ''}
+                        </div>
+                        ${p.addedBy ? `<div class="card-added">Added by: ${p.addedBy}</div>` : ''}
+                    </div>
+                `).join('');
+            })
+            .catch(() => {
+                document.getElementById('products-grid').innerHTML =
+                    '<div class="empty-state">Error fetching products.</div>';
+            });
+    }
+
+    fetchProducts();
+    document.getElementById('fetchBtn').addEventListener('click', fetchProducts);
+
+    // ------ ADD -------
+    document.getElementById('addBtn').addEventListener('click', () => {
+        const name        = document.getElementById('addName').value.trim();
+        const type        = document.getElementById('addType').value;
+        const price       = document.getElementById('addPrice').value.trim();
+        const description = document.getElementById('addDescription').value.trim();
+        const featsRaw    = document.getElementById('addFeats').value.trim();
+
+        if (!name) { setMsg('addMessage', 'Name is required.'); return; }
+
+        const product = { name, type, description };
+        if (price) product.price = price;
+        if (featsRaw) product.feats = featsRaw.split(',').map(f => f.trim()).filter(Boolean);
+
+        fetch('/api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(product)
+        })
+        .then(res => { if (handle401(res)) return null; return res.json(); })
+        .then(data => {
+            if (!data) return;
+            setMsg('addMessage', 'Product added!');
+            document.getElementById('addName').value = '';
+            document.getElementById('addType').value = '';
+            document.getElementById('addPrice').value = '';
+            document.getElementById('addDescription').value = '';
+            document.getElementById('addFeats').value = '';
+            fetchProducts();
+        })
+        .catch(() => setMsg('addMessage', 'Error adding product.'));
+    });
+
+    // ------ UPDATE ------
+    document.getElementById('updateBtn').addEventListener('click', () => {
+        const id = document.getElementById('updateId').value.trim();
+        if (!id) { setMsg('updateMessage', 'Product _id is required.'); return; }
+
+        const updates = {};
+        const name        = document.getElementById('updateName').value.trim();
+        const price       = document.getElementById('updatePrice').value.trim();
+        const description = document.getElementById('updateDescription').value.trim();
+
+        if (name)        updates.name = name;
+        if (price)       updates.price = price;
+        if (description) updates.description = description;
+
+        if (Object.keys(updates).length === 0) {
+            setMsg('updateMessage', 'Provide at least one field to update.');
+            return;
+        }
+
+        fetch(`/api/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updates)
+        })
+        .then(res => { if (handle401(res)) return null; return res.json(); })
+        .then(data => {
+            if (!data) return;
+            setMsg('updateMessage', `Updated! (matched: ${data.matchedCount}, modified: ${data.modifiedCount})`);
+            document.getElementById('updateId').value = '';
+            document.getElementById('updateName').value = '';
+            document.getElementById('updatePrice').value = '';
+            document.getElementById('updateDescription').value = '';
+            fetchProducts();
+        })
+        .catch(() => setMsg('updateMessage', 'Error updating product.'));
+    });
+
+    // ------ DELETE ------
+    document.getElementById('deleteBtn').addEventListener('click', () => {
+        const id = document.getElementById('deleteId').value.trim();
+        if (!id) { setMsg('deleteMessage', 'Product _id is required.'); return; }
+
+        fetch(`/api/${id}`, { method: 'DELETE' })
+        .then(res => { if (handle401(res)) return null; return res.json(); })
+        .then(data => {
+            if (!data) return;
+            setMsg('deleteMessage', `Deleted! (count: ${data.deletedCount})`);
+            document.getElementById('deleteId').value = '';
+            fetchProducts();
+        })
+        .catch(() => setMsg('deleteMessage', 'Error deleting product.'));
+    });
+</script>
+
+</body>
+</html>
