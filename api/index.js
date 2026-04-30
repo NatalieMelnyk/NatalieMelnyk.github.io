@@ -14,6 +14,7 @@ const {MongoClient} = require('mongodb');
 
 // Get connection string from env
 const uri = process.env.MONGO_URI;
+console.log("URI found:", !!uri); // logs true/false without exposing the value
 
 // Establish client on URI
 const client = new MongoClient(uri);
