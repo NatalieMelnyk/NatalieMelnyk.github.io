@@ -8,7 +8,7 @@
 // Dependencies
 const fs = require('fs');
 const path = require('path');
-const MongoClient = require('mongodb');
+const {MongoClient} = require('mongodb');
 
 // Web link for Vercel: https://task-buddy-indol.vercel.app/
 
@@ -37,7 +37,7 @@ module.exports = async (req, res) =>{
     {
         // Display Server Error
         console.error("MongoDB Error:", error.message);
-        res.status(500).json({error: 'Failed to get data'});
+        res.status(500).json({error: 'Failed to get data -> ' + error.message});
     }
     finally
     {
