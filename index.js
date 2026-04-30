@@ -148,6 +148,19 @@ function serveFile(res, filePath, contentType) {
     });
 }
 
+    function getContentType(filePath) {
+        const ext = path.extname(filePath).toLowerCase();
+        const types = {
+            '.jpg':  'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.png':  'image/png',
+            '.gif':  'image/gif',
+            '.svg':  'image/svg+xml',
+            '.webp': 'image/webp',
+        };
+        return types[ext] || 'application/octet-stream';
+    }
+
 // ──────────────────────────────────────────────
 // MongoDB
 // ──────────────────────────────────────────────
@@ -191,6 +204,12 @@ const server = http.createServer(async (req, res) => {
     // ─── PUBLIC: Serve CSS ────────────────────
     if (pathname === "/style.css") {
         serveFile(res, path.join(__dirname, "public", "style.css"), "text/css");
+        return;
+    }
+    // ─── PUBLIC: Serve images ─────────────────────
+    if (pathname.startsWith("/images/")) {
+        const imagePath = path.join(__dirname, "public", pathname);
+        serveFile(res, imagePath, getContentType(pathname));
         return;
     }
     // ─── PUBLIC: Marketing site ───────────────────
