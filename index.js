@@ -158,7 +158,8 @@ let usersCollection;
 async function connectDB() {
     try {
         await client.connect();
-        buddyDataCollection = client.db("TaskBuddy").collection("buddyData");
+        const db = client.db("TaskBuddy");
+        buddyDataCollection = db.collection("buddyData");
         usersCollection = db.collection("users");
         console.log("[DB] Connected to MongoDB");
     } catch (e) {
