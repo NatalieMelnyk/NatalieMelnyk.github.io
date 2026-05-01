@@ -50,17 +50,17 @@
  
         document.getElementById('error').textContent = 'Logging in...';
  
-        fetch('/api/users/login/', {
+        fetch('/api/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include', // Browser stors Set-Cookie
             body: JSON.stringify({ username, password })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.error) {
-                document.getElementById('error').textContent = data.error;
-                return;
+        .then(async res => {
+            const data = await res.json();
+            if (!res.ok) {
+                document.getElementById('error').textContent = data.message || 'Login failed';
+            return;
             }
             window.location.href = '/admin';
         })
