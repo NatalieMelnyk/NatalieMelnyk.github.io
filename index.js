@@ -219,7 +219,7 @@ const server = http.createServer(async (req, res) => {
     }
     // --- PUBLIC: API for marketing site -----------
     if (pathname === "/api/public" && req.method === "GET") {
-        productsCollection
+        buddyDataCollection
             .find({})
             .toArray()
             .then((results) => {
