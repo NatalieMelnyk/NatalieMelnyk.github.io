@@ -166,7 +166,7 @@ main img {
     justify-content: space-between;
 }
 .plan ul { text-align: left; }
-.plan li { padding: 5px; }
+.plan li { padding: 5px; padding-left: 10px; }
 
 /* -- email form -- */
 #form {
