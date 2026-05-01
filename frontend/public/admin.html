@@ -86,9 +86,14 @@
         return false;
     }
 
+    // Logout button uses pathing
+    document.querySelector('.logout-btn').addEventListener('click', async () => {
+        await fetch('/api/users/logout', { method: 'POST', credentials: 'include' });
+        window.location.href = '/login';
+    });
     // ------ Fetch & Render ------
     function fetchProducts() {
-        fetch('/api')
+        fetch('/api/products', {credentials: 'include'})
             .then(res => { if (handle401(res)) return null; return res.json(); })
             .then(products => {
                 if (!products) return;
@@ -138,8 +143,9 @@
         if (price) product.price = price;
         if (featsRaw) product.feats = featsRaw.split(',').map(f => f.trim()).filter(Boolean);
 
-        fetch('/api', {
+        fetch('/api/products', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(product)
         })
@@ -176,8 +182,9 @@
             return;
         }
 
-        fetch(`/api/${id}`, {
+        fetch(`/api/products/${id}`, {
             method: 'PUT',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updates)
         })
@@ -199,7 +206,7 @@
         const id = document.getElementById('deleteId').value.trim();
         if (!id) { setMsg('deleteMessage', 'Product _id is required.'); return; }
 
-        fetch(`/api/${id}`, { method: 'DELETE' })
+        fetch(`/api/products/${id}`, { method: 'DELETE', credentials: 'include' })
         .then(res => { if (handle401(res)) return null; return res.json(); })
         .then(data => {
             if (!data) return;

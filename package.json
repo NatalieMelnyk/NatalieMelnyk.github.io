@@ -1,26 +1,22 @@
 {
-  "name": "nataliemelnyk.github.io",
+  "name": "task-buddy",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NatalieMelnyk/NatalieMelnyk.github.io.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "backend/server.js",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/NatalieMelnyk/NatalieMelnyk.github.io/issues"
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
-  "homepage": "https://github.com/NatalieMelnyk/NatalieMelnyk.github.io#readme",
   "dependencies": {
-    "dotenv": "^17.4.1",
-    "mongodb": "^7.2.0",
-    "nodemon": "^3.1.14"
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

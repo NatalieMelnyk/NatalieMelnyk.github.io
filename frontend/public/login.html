@@ -30,9 +30,6 @@
     <p>Task Buddy Fake &copy; 2026</p>
 </footer>
 <script>
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
- 
     document.getElementById('loginBtn').addEventListener('click', doLogin);
  
     document.getElementById('password').addEventListener('keydown', (e) => {
@@ -53,10 +50,10 @@
  
         document.getElementById('error').textContent = 'Logging in...';
  
-        fetch('/login', {
+        fetch('/api/users/login/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
+            credentials: 'include', // Browser stors Set-Cookie
             body: JSON.stringify({ username, password })
         })
         .then(res => res.json())

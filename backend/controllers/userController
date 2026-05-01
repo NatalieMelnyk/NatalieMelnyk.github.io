@@ -1,0 +1,105 @@
+// Wraps async route handlers to automatically catch errors and pass them to Express's
+const asyncHandler = require('express-async-handler')
+
+//Used to create and verify JSON Web Tokens for stateless authentication
+const jwt = require('jsonwebtoken')
+
+// Used to hash passwords before storage and compare them during login
+const bcrypt = require('bcryptjs')
+
+// Import the Mongoose User model to interact with the 'users' collection in MongoDB
+const User = require('../model/userModel')
+
+
+// Cookie options shared by /login and /logout
+const cookieOptions = {
+  httpOnly: true, // Secure so JS can't read
+  secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+  sameSite: 'lax',   // sends top-level navs but not cross-site POSTs
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+}
+
+// Generate JWT with secret
+const generateToken = (id) =>
+{
+  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+}
+// @desc   Login
+// @route  POST /api/users/login
+// @access Public
+const loginUser = asyncHandler(async (req, res) => {
+  const { username, password } = req.body
+  const user = await User.findOne({ username })
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const token = generateToken(user._id)
+    res.cookie('token', token, cookieOptions)
+    res.json({ success: true, username: user.username })
+  } else {
+    res.status(401)
+    throw new Error('Invalid username or password')
+  }
+})
+
+// @desc   Logout — clear the cookie
+// @route  POST /api/users/logout (or GET, see notes)
+// @access Public
+const logoutUser = asyncHandler(async (req, res) => {
+  res.clearCookie('token', { ...cookieOptions, maxAge: 0 })
+  res.json({ success: true })
+})
+
+// @desc   Who am I (used by frontend to check auth)
+// @route  GET /api/users/me
+// @access Private
+const getMe = asyncHandler(async (req, res) => {
+  res.json({ id: req.user._id, username: req.user.username })
+})
+
+// ─────────────────────────────────────────────
+// @desc    Register a new user
+// @route   POST /api/users/
+// @access  Public (no token required)
+// ─────────────────────────────────────────────
+const registerUser = asyncHandler(async (req, res) => {
+    // Destructure required fields from the incoming JSON request body
+    const { username, password } = req.body
+  
+    // Validate that all required fields are present — reject early if any are missing
+    if (!username || !password) {
+        res.status(400)
+        throw new Error('Please add username and password')
+    }
+
+    // Check if a user with this username already exists in the database
+    // findOne returns null if not found, or the matching document if found
+    const exists = await User.findOne({ username })
+    if (exists) {
+        res.status(400)
+        throw new Error('User already exists')
+    }
+
+    // ── Password Hashing ──────────────────────────────────────────────────────
+    // Never store plain-text passwords. bcrypt adds a "salt" (random data) before
+    // hashing so that identical passwords produce different hashes each time.
+    const salt = await bcrypt.genSalt(10)   // 10 = cost factor (higher = slower but more secure)
+    const hashed = await bcrypt.hash(password, salt)    // Produces a one-way hash that can't be reversed
+    
+    // Create and persist a new User document in MongoDB using the hashed password
+    const user = await User.create({ username, password: hashed }) // Store the hash, never the raw password
+    if (user) {
+        // 201 Created — request succeeded and a new resource was created
+        res.status(201).json({
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            token: generateToken(user._id) // Issue a JWT so the client is immediately authenticated after registration
+        })
+    } else {
+        // User.create() returned a falsy value — the data didn't pass Mongoose schema validation
+        res.status(400)
+        throw new Error('Invalid user data')
+    }
+});
+// Export all controller functions so they can be wired to routes in userRoutes.js
+module.exports = { loginUser, logoutUser, getMe, registerUser }
