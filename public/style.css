@@ -165,7 +165,7 @@ main img {
     flex-direction: column;
     justify-content: space-between;
 }
-.plan ul { text-align: left; padding-left: 10px;}
+.plan ul { text-align: left; padding-left: 15px;}
 .plan li { padding: 5px;  }
 
 /* -- email form -- */
