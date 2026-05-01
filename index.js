@@ -201,25 +201,39 @@ const server = http.createServer(async (req, res) => {
         console.log("[AUTH] No valid session");
     }
 
-    // ─── PUBLIC: Serve CSS ────────────────────
+    // --- PUBLIC: Serve CSS ----------------------
     if (pathname === "/style.css") {
         serveFile(res, path.join(__dirname, "public", "style.css"), "text/css");
         return;
     }
-    // ─── PUBLIC: Serve images ─────────────────────
+    // --- PUBLIC: Serve images -------------------
     if (pathname.startsWith("/images/")) {
         const imagePath = path.join(__dirname, "public", pathname);
         serveFile(res, imagePath, getContentType(pathname));
         return;
     }
-    // ─── PUBLIC: Marketing site ───────────────────
+    // --- PUBLIC: Marketing site ------------------
     if (pathname === "/" && req.method === "GET") {
         serveFile(res, path.join(__dirname, "public", "index.html"), "text/html");
         return;
     }
+    // --- PUBLIC: API for marketing site -----------
+    if (pathname === "/api/public" && req.method === "GET") {
+        productsCollection
+            .find({})
+            .toArray()
+            .then((results) => {
+                const plans    = results.filter(p => p.type === "plan");
+                const features = results.filter(p => p.type === "feature");
+                sendJSON(res, 200, { plans, features });
+            })
+            .catch((err) => {
+                sendJSON(res, 500, { error: "Failed to fetch data" });
+            });
+        return;
+    }
 
-    // ─── PUBLIC: Login page ───────────────────
-
+    // --- PUBLIC: Login page -----------------------------
     if (pathname === "/login" && req.method === "GET") {
         console.log("[ROUTE] Serving login page");
         // If already logged in, redirect to /books
@@ -233,8 +247,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ─── PUBLIC: Login API ────────────────────
-
+    // --- PUBLIC: Login API --------------------------
     if (pathname === "/login" && req.method === "POST") {
         console.log("[ROUTE] Login attempt...");
         const body = await readBody(req);
@@ -265,8 +278,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ─── PUBLIC: Logout ───────────────────────
-
+    // --- PUBLIC: Logout -------------------------------
     if (pathname === "/logout") {
         console.log("[ROUTE] Logout");
         if (sessionId) destroySession(sessionId);
@@ -275,9 +287,9 @@ const server = http.createServer(async (req, res) => {
         res.end();
         return;
     }
-
-    // ─── AUTH WALL: everything below requires login ───
-
+    // ==================================================
+    // --- AUTH WALL: everything below requires login ---
+    // ==================================================
     if (!session) {
         if (pathname.startsWith("/api")) {
             console.log("[AUTH] Blocked API request - no session");

@@ -347,7 +347,7 @@
             async function getData(){
                 try{
                     // Fetch data from api endpoint URL
-                    const response = await fetch("https://nataliemelnyk.github.io/database.json");
+                    const response = await fetch("/api/public");
 
                     // Store json response in data to parse
                     const data = await response.json();
