@@ -89,9 +89,9 @@ function destroySession(sessionId) {
     }
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Cookie helpers
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 function parseCookies(req) {
     const cookieHeader = req.headers.cookie || "";
     const cookies = {};
@@ -116,9 +116,9 @@ function clearSessionCookie(res) {
     res.setHeader("Set-Cookie", "sid=; HttpOnly; Path=/; Max-Age=0");
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Helpers
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 function readBody(req) {
     return new Promise((resolve, reject) => {
@@ -161,9 +161,9 @@ function serveFile(res, filePath, contentType) {
         return types[ext] || 'application/octet-stream';
     }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // MongoDB
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 
 let buddyDataCollection;
 let usersCollection;
@@ -181,9 +181,9 @@ async function connectDB() {
     }
 }
 
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 // Server
-// ──────────────────────────────────────────────
+// ----------------------------------------------
 const server = http.createServer(async (req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
@@ -302,24 +302,22 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ─── PROTECTED: Book collection page ──────
-
+    // --- PROTECTED: Book collection page -----
     if (pathname === "/admin" && req.method === "GET") {
         console.log("[ROUTE] Serving products page (admin.html)");
         serveFile(res, path.join(__dirname, "public", "admin.html"), "text/html");
         return;
     }
 
-    // ─── PROTECTED: About page ────────────────
-
+    // --- PROTECTED: About page ----------------
     if (pathname === "/about" && req.method === "GET") {
         console.log("[ROUTE] Serving about page");
         serveFile(res, path.join(__dirname, "public", "about.html"), "text/html");
         return;
     }
-
-    // ─── PROTECTED: API routes ────────────────
-
+    // ------------------------------------------
+    // --- PROTECTED: API routes ----------------
+    // ------------------------------------------
     // GET all product data
     if (pathname === "/api" && req.method === "GET") {
         console.log("[API] GET all buddy data");
@@ -366,7 +364,7 @@ const server = http.createServer(async (req, res) => {
 
     // PUT update product
     if (pathname.startsWith("/api/") && req.method === "PUT") {
-        const id = Number(pathname.split("/")[2]);
+        const id = pathname.split("/")[2];
         console.log(`[API] PUT update product id=${id}`);
         const body = await readBody(req);
 
@@ -406,7 +404,7 @@ const server = http.createServer(async (req, res) => {
 
     // DELETE product
     if (pathname.startsWith("/api/") && req.method === "DELETE") {
-        const id = Number(pathname.split("/")[2]);
+        const id = pathname.split("/")[2];
         console.log(`[API] DELETE product id=${id}`);
 
         // Verify object exists
