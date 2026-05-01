@@ -1,63 +1,53 @@
-:root{
-    --main-padding: 10px;
-    --main-radius: 25px; /* Soft Border Corners*/
-    --myWhite: #fefcfdf0;
-    --paleSky: #bfcde0;
-    --dustyGrape: #5d5d81;
-    --spaceIndigo: #3b3355;
-    --myBlack: #000505;
+:root {
+    --main-padding:  10px;
+    --main-radius:   25px;
+    --myWhite:       #fefcfdf0;
+    --paleSky:       #bfcde0;
+    --dustyGrape:    #5d5d81;
+    --spaceIndigo:   #3b3355;
+    --myBlack:       #000505;
 }
-body{
-    margin: 0; /* Get rid of whitespace*/
+
+
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+/* BASE */
+body {
+    margin: 0;
     font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
 }
-#container{
-    display: grid; /* CSS Grid */
 
-    grid-template-rows: auto auto auto auto auto auto auto auto auto;
-    grid-template-columns: 1fr 1fr 1fr;
 
-    /* Set grid structure*/
-    grid-template-areas:
-    "nav nav nav"
-    "main main main"
-    "featTitle featTitle featTitle"
-    "featBlock featBlock featBlock"
-    "planTitle planTitle planTitle"
-    "plans plans plans"
-    "form form form"
-    "footer footer footer"
-    ;
-}
-
-nav{
-    grid-area: nav;
-
-    /* Styling */
+/* NAV (shared across all pages) */
+nav {
     background-color: whitesmoke;
     padding: var(--main-padding) 40px;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid black;
+    z-index: 100;
 }
-.logo{
+nav a {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+.logo {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-nav img{
+.logo img,
+nav img {
     width: 30px;
-}
-nav a{
-    /* Nav anchor tags */
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
+    height: 30px;
+    object-fit: contain;
+    border-radius: 4px;
 }
 #navLinks {
     display: flex;
@@ -69,7 +59,10 @@ nav a{
     font-size: 1.5rem;
     cursor: pointer;
 }
-button{
+
+
+/* BUTTON (shared) */
+button {
     color: white;
     background-color: var(--spaceIndigo);
     border: none;
@@ -77,27 +70,52 @@ button{
     padding: 12px 28px;
     cursor: pointer;
 }
-main{
-    grid-area: main;
+button:hover { opacity: 0.85; }
 
-    /* Styling */
+
+/* FOOTER (shared) */
+footer {
+    background-color: var(--myBlack);
+    color: var(--myWhite);
+    text-align: center;
+    padding: var(--main-padding);
+}
+
+
+/* Main Page  (index.html) */
+#container {
+    display: grid;
+    grid-template-rows: auto auto auto auto auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "nav      nav      nav"
+        "main     main     main"
+        "featTitle featTitle featTitle"
+        "featBlock featBlock featBlock"
+        "planTitle planTitle planTitle"
+        "plans    plans    plans"
+        "form     form     form"
+        "footer   footer   footer";
+}
+
+main {
+    grid-area: main;
     background-color: var(--paleSky);
     min-height: 80vh;
     display: flex;
     align-items: center;
     padding: 40px;
 }
-main img{
+main img {
     width: 28em;
     margin: 2em;
     border: 1px solid white;
     border-radius: 10px;
 }
 
-#featureTitle{
+/* -- features -- */
+#featureTitle {
     grid-area: featTitle;
-
-    /* Styling */
     background-color: var(--dustyGrape);
     color: var(--myWhite);
     display: flex;
@@ -106,11 +124,9 @@ main img{
     padding: 2em;
     font-size: 16px;
 }
-#featureTitle h1{
-    display: flex;
-    justify-content: center;
-}
-#featContainer{
+#featureTitle h1 { display: flex; justify-content: center; }
+
+#featContainer {
     grid-area: featBlock;
     background-color: var(--dustyGrape);
     display: grid;
@@ -118,29 +134,28 @@ main img{
     gap: 30px;
     padding: 20px var(--main-padding) 80px;
 }
-.features{
+.features {
     background-color: var(--myWhite);
     padding: 40px;
     border: 1px solid var(--myWhite);
     border-radius: var(--main-radius);
 }
 
-#planTitle{
+/* -- plans -- */
+#planTitle {
     grid-area: planTitle;
-    /* Styling */
     background-color: whitesmoke;
     padding: 40px;
 }
-#plansContainer{
+#plansContainer {
     grid-area: plans;
-
     background-color: whitesmoke;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     padding: 20px;
 }
-.plan{
+.plan {
     background-color: white;
     border: 1px solid black;
     border-radius: var(--main-radius);
@@ -150,66 +165,232 @@ main img{
     flex-direction: column;
     justify-content: space-between;
 }
-.plan ul{
-    text-align: left;
-}
-.plan li{
-    padding: 5px;
-}
-#form{
-    grid-area: form;
+.plan ul { text-align: left; }
+.plan li { padding: 5px; }
 
-    /* Styling */
+/* -- email form -- */
+#form {
+    grid-area: form;
     background-color: var(--spaceIndigo);
     color: var(--myWhite);
     text-align: center;
     padding: 75px;
 }
-#form input{
+#form input {
     padding: var(--main-padding);
     border-radius: var(--main-radius);
     border: none;
     width: 250px;
     margin-right: var(--main-padding);
 }
-#form button{
-    border: 1px solid var(--myWhite)
-}
-footer{
-    grid-area: footer;
+#form button { border: 1px solid var(--myWhite); }
 
-    /* Styling */
-    background-color: var(--myBlack);
+
+/* ADMIN PAGE  (admin.html) */
+.page-wrapper { padding-top: 60px; }
+
+/* -- forms section -- */
+#forms-section {
+    background-color: var(--dustyGrape);
     color: var(--myWhite);
-    text-align: center;
-    padding: var(--main-padding);
+    padding: 2em;
 }
+#forms-section h1 {
+    text-align: center;
+    margin-bottom: 0.5em;
+    font-size: 1.5rem;
+}
+#forms-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    padding: 20px var(--main-padding) 40px;
+}
+
+.form-block {
+    background-color: var(--myWhite);
+    color: var(--myBlack);
+    padding: 30px;
+    border-radius: var(--main-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form-block h2 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: var(--spaceIndigo);
+}
+.form-block input,
+.form-block select,
+.form-block textarea {
+    padding: var(--main-padding);
+    border-radius: var(--main-radius);
+    border: 1px solid var(--dustyGrape);
+    width: 100%;
+    font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+    font-size: 0.9rem;
+}
+.form-block textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+.form-block button {
+    width: 100%;
+}
+.msg {
+    font-size: 0.8rem;
+    min-height: 18px;
+    color: var(--spaceIndigo);
+}
+
+/* -- products section -- */
+#products-section {
+    background-color: whitesmoke;
+    padding: 40px;
+}
+#products-section h1 {
+    margin-bottom: 20px;
+    color: var(--spaceIndigo);
+}
+#products-section > button {
+    margin-bottom: 20px;
+}
+#products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.product-block {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: var(--main-radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.product-block h3 {
+    color: var(--spaceIndigo);
+    font-size: 1rem;
+}
+.product-block .block-type {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--dustyGrape);
+}
+.product-block .block-price {
+    font-weight: bold;
+    color: var(--myBlack);
+}
+.product-block .block-desc {
+    font-size: 0.82rem;
+    color: #444;
+    line-height: 1.4;
+}
+.product-block ul {
+    text-align: left;
+    padding-left: 18px;
+}
+.product-block li {
+    font-size: 0.8rem;
+    padding: 3px 0;
+    color: #333;
+}
+.block-id {
+    font-size: 0.72rem;
+    color: var(--dustyGrape);
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 6px 10px;
+    word-break: break-all;
+    line-height: 1.5;
+}
+.block-added {
+    font-size: 0.72rem;
+    color: #888;
+}
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--dustyGrape);
+}
+
+
+/* LOGIN PAGE  (login.html)*/
+.login-wrapper {
+    min-height: 100vh;
+    background-color: var(--paleSky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+}
+.login-block {
+    background-color: var(--myWhite);
+    border-radius: var(--main-radius);
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.login-block h1 {
+    color: var(--spaceIndigo);
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    text-align: center;
+}
+.login-block input {
+    padding: var(--main-padding);
+    border-radius: var(--main-radius);
+    border: 1px solid var(--dustyGrape);
+    width: 100%;
+    font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+    font-size: 0.95rem;
+}
+.login-block button {
+    width: 100%;
+    border-radius: var(--main-radius);
+    font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1rem;
+}
+#error {
+    text-align: center;
+    color: var(--dustyGrape);
+    font-size: 0.85rem;
+    min-height: 18px;
+}
+
+
+/* Make Website Screen Size Responsive */
 @media (max-width: 768px) {
 
-    #menuIcon { display: block; } /* Show hamburger */
+    /* nav */
+    #menuIcon { display: block; }
     #navLinks {
-        display: none; /* Hide links*/
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 55px; /* Under the nav bar */
-        left: 0;
-        right: 0;
+        top: 55px;
+        left: 0; right: 0;
         background-color: whitesmoke;
         padding: 20px;
         border-bottom: 2px solid var(--spaceIndigo);
         gap: 15px;
     }
-
-    /* When JS adds the 'active' class, the menu appears */
     #navLinks.active { display: flex; }
 
-    /* Stack image and text vertically */
+    /* index */
     main { flex-direction: column; text-align: center; }
     main img { width: 80%; margin-top: 20px; }
-
     #container {
-        grid-template-columns: 1fr; 
-        /* Redefine grid areas for a vertical stack */
+        grid-template-columns: 1fr;
         grid-template-areas:
             "nav"
             "main"
@@ -220,20 +401,11 @@ footer{
             "form"
             "footer";
     }
+    #featContainer  { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+    #plansContainer { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+    #form input     { width: 90%; margin-right: 0; margin-bottom: 15px; }
 
-    #featContainer {
-        grid-template-columns: 1fr; /* Stack features vertically */
-        padding: 20px; /* Reduce padding for narrow screens */
-        gap: 20px;
-    }
-    #plansContainer {
-        grid-template-columns: 1fr; /* Stack plans vertically */
-        padding: 20px;
-        gap: 20px;
-    }
-    #form input {
-        width: 90%; /* Make input take up most of the screen width */
-        margin-right: 0;
-        margin-bottom: 15px; /* Add space between input and button */
-    }
+    /* admin */
+    #forms-container { grid-template-columns: 1fr; }
+    #products-grid   { grid-template-columns: 1fr; }
 }

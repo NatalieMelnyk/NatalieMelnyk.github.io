@@ -4,255 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel — Task Buddy</title>
-    <style>
-        :root {
-            --main-padding: 10px;
-            --main-radius: 25px;
-            --myWhite: #fefcfdf0;
-            --paleSky: #bfcde0;
-            --dustyGrape: #5d5d81;
-            --spaceIndigo: #3b3355;
-            --myBlack: #000505;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            margin: 0;
-            font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
-        }
-
-        /* -- NAV -- */
-        nav {
-            background-color: whitesmoke;
-            padding: var(--main-padding) 40px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid black;
-            z-index: 100;
-        }
-        nav a {
-            color: black;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        nav button {
-            color: white;
-            background-color: var(--spaceIndigo);
-            border: none;
-            border-radius: 20px;
-            padding: 12px 28px;
-            cursor: pointer;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .logo img {
-            width: 30px;         
-            height: 30px;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-
-        /* -- PAGE WRAPPER (makes content below fixed nav) -- */
-        .page-wrapper {
-            padding-top: 60px;
-        }
-
-        /* -- FORMS SECTION -- */
-        #forms-section {
-            background-color: var(--dustyGrape);
-            color: var(--myWhite);
-            padding: 2em;
-        }
-
-        #forms-section h1 {
-            text-align: center;
-            margin-bottom: 0.5em;
-            font-size: 1.5rem;
-        }
-
-        #forms-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 30px;
-            padding: 20px var(--main-padding) 40px;
-        }
-
-        .form-card {
-            background-color: var(--myWhite);
-            color: var(--myBlack);
-            padding: 30px;
-            border-radius: var(--main-radius);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .form-card h2 {
-            font-size: 1rem;
-            margin-bottom: 6px;
-            color: var(--spaceIndigo);
-        }
-
-        .form-card input,
-        .form-card select,
-        .form-card textarea {
-            padding: var(--main-padding);
-            border-radius: var(--main-radius);
-            border: 1px solid var(--dustyGrape);
-            width: 100%;
-            font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
-            font-size: 0.9rem;
-        }
-
-        .form-card textarea {
-            resize: vertical;
-            min-height: 70px;
-        }
-
-        .form-card button {
-            color: white;
-            background-color: var(--spaceIndigo);
-            border: none;
-            border-radius: 20px;
-            padding: 12px 28px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .form-card button:hover {
-            opacity: 0.85;
-        }
-
-        .msg {
-            font-size: 0.8rem;
-            min-height: 18px;
-            color: var(--spaceIndigo);
-        }
-
-        /* -- PRODUCTS SECTION -- */
-        #products-section {
-            background-color: whitesmoke;
-            padding: 40px;
-        }
-
-        #products-section h1 {
-            margin-bottom: 20px;
-            color: var(--spaceIndigo);
-        }
-
-        #products-section button {
-            color: white;
-            background-color: var(--spaceIndigo);
-            border: none;
-            border-radius: 20px;
-            padding: 12px 28px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        #products-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-        }
-
-        .product-card {
-            background-color: white;
-            border: 1px solid black;
-            border-radius: var(--main-radius);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .product-card h3 {
-            color: var(--spaceIndigo);
-            font-size: 1rem;
-        }
-
-        .product-card .card-type {
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: var(--dustyGrape);
-        }
-
-        .product-card .card-price {
-            font-weight: bold;
-            color: var(--myBlack);
-        }
-
-        .product-card .card-desc {
-            font-size: 0.82rem;
-            color: #444;
-            line-height: 1.4;
-        }
-
-        .product-card ul {
-            text-align: left;
-            padding-left: 18px;
-        }
-
-        .product-card li {
-            font-size: 0.8rem;
-            padding: 3px 0;
-            color: #333;
-        }
-
-        .card-id {
-            font-size: 0.72rem;
-            color: var(--dustyGrape);
-            background-color: whitesmoke;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 6px 10px;
-            word-break: break-all;
-            line-height: 1.5;
-        }
-
-        .card-added {
-            font-size: 0.72rem;
-            color: #888;
-        }
-
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px;
-            color: var(--dustyGrape);
-        }
-
-        /* -- FOOTER -- */
-        footer {
-            background-color: var(--myBlack);
-            color: var(--myWhite);
-            text-align: center;
-            padding: var(--main-padding);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            #forms-container {
-                grid-template-columns: 1fr;
-            }
-            #products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <nav>
     <div class="logo">
             <a href="/">
@@ -263,16 +17,14 @@
     <strong>Task Buddy - Admin Panel</strong>
     <a href="/logout"><button>Logout</button></a>
 </nav>
-
 <div class="page-wrapper">
-
+    
     <!-- FORMS -->
     <section id="forms-section">
         <h1>Manage Products</h1>
         <div id="forms-container">
-
             <!-- ADD -->
-            <div class="form-card">
+            <div class="form-block">
                 <h2>Add Product</h2>
                 <input type="text" id="addName" placeholder="Name">
                 <select id="addType">
@@ -288,7 +40,7 @@
             </div>
 
             <!-- UPDATE -->
-            <div class="form-card">
+            <div class="form-block">
                 <h2>Update Product</h2>
                 <input type="text" id="updateId" placeholder="Product _id">
                 <input type="text" id="updateName" placeholder="New name (optional)">
@@ -299,7 +51,7 @@
             </div>
 
             <!-- DELETE -->
-            <div class="form-card">
+            <div class="form-block">
                 <h2>Delete Product</h2>
                 <input type="text" id="deleteId" placeholder="Product _id">
                 <button id="deleteBtn">Delete Product</button>
@@ -348,18 +100,18 @@
                 }
 
                 grid.innerHTML = products.map(p => `
-                    <div class="product-card">
-                        <div class="card-type">${p.type || ''}</div>
+                    <div class="product-block">
+                        <div class="block-type">${p.type || ''}</div>
                         <h3>${p.name || '—'}</h3>
-                        ${p.price ? `<div class="card-price">${p.price}</div>` : ''}
-                        ${p.description ? `<div class="card-desc">${p.description}</div>` : ''}
+                        ${p.price ? `<div class="block-price">${p.price}</div>` : ''}
+                        ${p.description ? `<div class="block-desc">${p.description}</div>` : ''}
                         ${p.feats && p.feats.length ? `
                             <ul>${p.feats.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
-                        <div class="card-id">
+                        <div class="block-id">
                             <strong>_id:</strong> ${p._id}
                             ${p.id !== undefined ? `<br><strong>id:</strong> ${p.id}` : ''}
                         </div>
-                        ${p.addedBy ? `<div class="card-added">Added by: ${p.addedBy}</div>` : ''}
+                        ${p.addedBy ? `<div class="block-added">Added by: ${p.addedBy}</div>` : ''}
                     </div>
                 `).join('');
             })
