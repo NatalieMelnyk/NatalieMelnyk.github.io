@@ -22,7 +22,7 @@ const cookieOptions = {
 // Generate JWT with secret
 const generateToken = (id) =>
 {
-  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' })
 }
 // @desc   Login
 // @route  POST /api/users/login
